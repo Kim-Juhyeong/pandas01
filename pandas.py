@@ -2,13 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('./driver_license_status1.csv')
+df2 = pd.read_csv('./driver_license_status2.csv')
 
 grouped_df = df.groupby(['year', 'age2'])[['Class1 Heavy','Class1 Ordinary','Class2 Ordinary','Class2 small']].sum().reset_index()
 
-#grouped
+#grouped_df
 
-age2_20 = grouped_df[grouped_data['age2'] == 20]
-age2_30 = grouped_df[grouped_data['age2'] == 30]
+age2_20 = grouped_df[grouped_df['age2'] == 20]
+age2_30 = grouped_df[grouped_df['age2'] == 30]
 
 plt.figure(figsize=(12, 6))
 
@@ -50,3 +51,23 @@ for license_type in license_types:
     plt.tight_layout()
     plt.show()
 
+grouped = df2.groupby('age2').sum().reset_index()
+
+#grouped
+
+grouped_df2 = df2.groupby('age2').sum()
+
+filtered_df2 = grouped_df2.loc[[20, 30], ['2019', '2020', '2021', '2022', '2023']]
+
+transposed_df2 = filtered_df2.T
+
+plt.figure(figsize=(10, 6))
+for age, values in transposed_df2.items():
+    plt.plot(transposed_df2.index, values, label=f'Age {age}')
+
+plt.title('Yearly Possession by Age Group (20 and 30)', fontsize=14)
+plt.xlabel('Year', fontsize=12)
+plt.ylabel('Possession', fontsize=12)
+plt.legend(title='Age Group')
+plt.grid(True)
+plt.show()
